@@ -20,14 +20,14 @@ admin.add_view(ModelView(Request, db.session))
 
 
 @app.route('/districts/', methods=['GET'])
-def index():
+def show_districts():
     districts_db = db.session.query(District).all()
     districts_list = [{'id': district.id, 'title': district.title} for district in districts_db]
     return jsonify(districts_list)
 
 
 @app.route('/streets/', methods=['GET'])
-def streets_f():
+def show_streets():
     district_id = request.args.get('district')
     district_db = db.session.query(District).get(district_id)
     streets_in_district = district_db.streets
@@ -38,7 +38,7 @@ def streets_f():
 
 
 @app.route('/volunteers/', methods=['GET'])
-def volunteers_f():
+def show_volunteers():
     street_id = request.args.get('streets')
     street_db = db.session.query(Street).get(street_id)
     volunteers_on_street = street_db.volunteers
@@ -48,7 +48,7 @@ def volunteers_f():
 
 
 @app.route('/helpme/', methods=['POST'])
-def request_f():
+def accept_request():
     accepted_data = request.json
     new_request = Request(district=accepted_data.get('district'),
                           street=accepted_data.get('street'),

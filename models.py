@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 
+
 db = SQLAlchemy()
 
 volunteers_streets_associations = db.Table('volunteers_streets',
@@ -46,9 +47,3 @@ class Request(db.Model):
     surname = db.Column(db.String())
     phone = db.Column(db.String())
     text = db.Column(db.String())
-
-
-
-
-
-
