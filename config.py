@@ -6,7 +6,7 @@ db_path = "sqlite:///" + current_path + "\\project.db"
 
 
 class Config:
-    DEBUG = False
+    DEBUG = True
     SECRET_KEY = 'no_one_know'
     SQLALCHEMY_DATABASE_URI = db_path
     SQLALCHEMY_TRACK_MODIFICATIONS = False
