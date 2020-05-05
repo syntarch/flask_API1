@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_migrate import Migrate
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -18,9 +18,11 @@ admin.add_view(ModelView(Street, db.session))
 admin.add_view(ModelView(District, db.session))
 
 
-@app.route('/')
+@app.route('/districts/', methods=['GET'])
 def index():
-    return 'Hi!!!'
+    districts_db = db.session.query(District).all()
+    districts_list = [{'id': district.id, 'title': district.title} for district in districts_db]
+    return jsonify(districts_list)
 
 if __name__ == '__main__':
     app.run()

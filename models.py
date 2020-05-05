@@ -35,6 +35,19 @@ class District(db.Model):
     streets = db.relationship('Street', secondary=streets_districts_association, back_populates='districts')
 
 
+class Request(db.Model):
+    __tablename__ = 'requests'
+    id = db.Column(db.Integer, primary_key=True)
+    district = db.Column(db.Integer)
+    street = db.Column(db.Integer)
+    volunteer = db.Column(db.Integer)
+    address = db.Column(db.String())
+    name = db.Column(db.String())
+    surname = db.Column(db.String())
+    phone = db.Column(db.String())
+    text = db.Column(db.String())
+
+
 
 
 
