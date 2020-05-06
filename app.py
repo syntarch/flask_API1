@@ -30,21 +30,27 @@ def show_districts():
 def show_streets():
     district_id = request.args.get('district')
     district_db = db.session.query(District).get(district_id)
-    streets_in_district = district_db.streets
-    streets_list = [{'id': street.id, 'title': street.title,
-                     'volunteers': [volunteer.id for volunteer in street.volunteers]}
-                    for street in streets_in_district]
-    return jsonify(streets_list)
+    if district_db:
+        streets_in_district = district_db.streets
+        streets_list = [{'id': street.id, 'title': street.title,
+                        'volunteers': [volunteer.id for volunteer in street.volunteers]}
+                        for street in streets_in_district]
+        return jsonify(streets_list)
+    else:
+        return jsonify(), 404
 
 
 @app.route('/volunteers/', methods=['GET'])
 def show_volunteers():
     street_id = request.args.get('streets')
     street_db = db.session.query(Street).get(street_id)
-    volunteers_on_street = street_db.volunteers
-    volunteers_list = [{'id': volunteer.id, 'name': volunteer.name, 'userpic': volunteer.userpic, 'phone': volunteer.phone}
-                       for volunteer in volunteers_on_street]
-    return jsonify(volunteers_list)
+    if street_db:
+        volunteers_on_street = street_db.volunteers
+        volunteers_list = [{'id': volunteer.id, 'name': volunteer.name, 'userpic': volunteer.userpic,
+                            'phone': volunteer.phone} for volunteer in volunteers_on_street]
+        return jsonify(volunteers_list)
+    else:
+        return jsonify(), 404
 
 
 @app.route('/helpme/', methods=['POST'])
@@ -60,7 +66,7 @@ def accept_request():
                           text=accepted_data.get('text'))
     db.session.add(new_request)
     db.session.commit()
-    return jsonify({'status': 'success'})
+    return jsonify({'status': 'success'}), 201, {"Location": f"/helpme/{new_request.id}"}
 
 
 if __name__ == '__main__':
